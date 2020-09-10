@@ -1,7 +1,3 @@
-from ensurepip import version
-from gettext import install
-from xml.etree.ElementInclude import include
-from requests import packages
 from setuptools import setup, find_packages
 
 setup(
