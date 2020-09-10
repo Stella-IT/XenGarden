@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,pycharm,visualstudiocode,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,pycharm,visualstudiocode,macos
 
+### Github CodeSpaces ###
+# General
+pythonenv3.8/
+pythonenv3.8/*
+
 ### macOS ###
 # General
 .DS_Store

@@ -31,7 +31,19 @@ class Console:
         except Exception as e:
             print("Console.get_uuid Exception", e)
             return None
-
+    
+    def get_by_uuid(self, uuid):
+        """ returns Console object that has specific uuid """
+        try:
+            console = self.session.xenapi.Console.get_by_uuid(uuid)
+            if console is not None:
+                return Console(self.session, console)
+            else:
+                return None
+        except Exception as e:
+            print("Console.get_by_uuid Exception", e)
+            return None
+            
     def get_protocol(self):
         """ Returns Protocol of Console """
         try:
