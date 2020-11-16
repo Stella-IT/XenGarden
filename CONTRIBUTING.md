@@ -1,5 +1,5 @@
 # Contributing Guidelines
-Thank you for your interest in Project XenXenXenSe. This document will help you kick start how to contribute into XenXenXenSe Project.
+Thank you for your interest in Project XenGarden. This document will help you kick start how to contribute into XenGarden Project.
 
 While contributions are always welcome, But please if your change you wish to make is breaking changes in any form, please first discuss the change you wish to make via issue.  
 Please note this project follows [Stella IT Opensource Project Code of Conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.  
