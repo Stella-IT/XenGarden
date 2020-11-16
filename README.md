@@ -1,5 +1,5 @@
 # XenGarden
-XenGarden, An Object-Oriented Python Middleware for XenAPI. 
+XenGarden, An Object-Oriented Python Middleware for XenAPI.  
 ![Python version](https://img.shields.io/pypi/pyversions/XenGarden)  
 
 [Discord Community](https://opensource.stella-it.com/discord/)     
