@@ -13,4 +13,3 @@ This is for enhancing readability and for future automatic parsing
 
 ### Black Formatter
 We use Black Formatter to format the code. The properly formatted code is necessary before your code being merged.  
-This can be triggered via `./scripts/format.sh` and `./scripts/format-imports.sh`
