@@ -13,7 +13,7 @@ XenGarden, An Object-Oriented Python Middleware for XenAPI.
 Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.  
 
 ## Code of Conduct
-This project has adopted Stella IT Opensource Project Code of Conduct (also known as: Stella IT HongseeLab Code of Conduct).  
+This project has adopted Stella IT Opensource Project Code of Conduct.  
 Please refer to [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for more information.  
 
 ## License
