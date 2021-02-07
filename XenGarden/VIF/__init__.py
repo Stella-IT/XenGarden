@@ -3,6 +3,8 @@ from deprecated import deprecated
 from XenGarden.GuestMetrics import GuestMetrics
 from XenGarden.Console import Console
 
+from enum import Enum
+
 class VIFLockingMode(Enum):
     DEFAULT = 'network_default'
     LOCKED = 'locked'
