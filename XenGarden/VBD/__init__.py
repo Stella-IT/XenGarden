@@ -64,7 +64,7 @@ class VBD:
 
     def get_VM(self):
         """ get VM attached to the specified VBD """
-        from XenXenXenSe.VM import VM
+        from XenGarden.VM import VM
 
         try:
             vm = self.session.xenapi.VBD.get_VM(self.vbd)

@@ -86,7 +86,7 @@ class VIF:
             return False
 
     def get_vm(self):
-        from XenXenXenSe.VM import VM
+        from XenGarden.VM import VM
 
         try:
             vm = self.session.xenapi.VIF.get_VM(self.vif)

@@ -377,7 +377,7 @@ class VM:
         return None
 
     def delete(self):
-        from XenXenXenSe.VBD import VBD
+        from XenGarden.VBD import VBD
 
         try:
             vbds = self.get_Disks()
@@ -394,7 +394,7 @@ class VM:
         return self.delete()
 
     def get_VBDs(self):
-        from XenXenXenSe.VBD import VBD
+        from XenGarden.VBD import VBD
 
         try:
             vbds = self.session.xenapi.VM.get_VBDs(self.vm)
@@ -409,7 +409,7 @@ class VM:
             return None
 
     def get_CDs(self):
-        from XenXenXenSe.VBD import VBD
+        from XenGarden.VBD import VBD
 
         try:
             vbds = self.session.xenapi.VM.get_VBDs(self.vm)
@@ -427,7 +427,7 @@ class VM:
             return None
 
     def get_VIFs(self):
-        from XenXenXenSe.VIF import VIF
+        from XenGarden.VIF import VIF
 
         try:
             vifs = self.session.xenapi.VM.get_VIFs(self.vm)
@@ -453,7 +453,7 @@ class VM:
         return self.get_CDs()[0]
 
     def get_Disks(self):
-        from XenXenXenSe.VBD import VBD
+        from XenGarden.VBD import VBD
 
         try:
 
