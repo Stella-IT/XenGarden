@@ -13,45 +13,36 @@ class SR:
     @staticmethod
     def get_all(session):
         """ get all SR object available """
-        try:
-            srs = session.xenapi.SR.get_all()
 
-            sr_list = []
-            for sr in srs:
-                sr_list.append(SR(session, sr))
+        srs = session.xenapi.SR.get_all()
 
-            return sr_list
-        except Exception as e:
-            print("SR.get_by_uuid Exception", e)
-            return None
+        sr_list = []
+        for sr in srs:
+            sr_list.append(SR(session, sr))
+
+        return sr_list
 
     @staticmethod
     def get_by_name(session, name):
         """ returns SR object that has specific name"""
-        try:
-            srs = session.xenapi.SR.get_by_name_label(name)
 
-            srs_list = []
-            for sr in srs:
-                srs_list.append(SR(session, sr))
+        srs = session.xenapi.SR.get_by_name_label(name)
 
-            return srs_list
-        except Exception as e:
-            print("SR.get_by_name Exception", e)
-            return None
+        srs_list = []
+        for sr in srs:
+            srs_list.append(SR(session, sr))
+
+        return srs_list
 
     @staticmethod
     def get_by_uuid(session, uuid):
         """ returns SR object that has specific uuid """
-        try:
-            sr = session.xenapi.SR.get_by_uuid(uuid)
 
-            if sr is not None:
-                return SR(session, sr)
-            else:
-                return None
-        except Exception as e:
-            print("SR.get_by_uuid Exception", e)
+        sr = session.xenapi.SR.get_by_uuid(uuid)
+
+        if sr is not None:
+            return SR(session, sr)
+        else:
             return None
 
     @deprecated
@@ -77,64 +68,39 @@ class SR:
         }
 
     def get_VDIs(self):
-        try:
-            vdis = self.session.xenapi.SR.get_VDIs(self.sr)
 
-            vdi_list = []
-            for vdi in vdis:
-                vdi_list.append(VDI(self.session, vdi))
+        vdis = self.session.xenapi.SR.get_VDIs(self.sr)
 
-            return vdi_list
+        vdi_list = []
+        for vdi in vdis:
+            vdi_list.append(VDI(self.session, vdi))
 
-        except Exception as e:
-            print("SR.get_VDIs Exception", e)
-            return
+        return vdi_list
 
     def get_name(self):
-        try:
-            return self.session.xenapi.SR.get_name_label(self.sr)
-        except Exception as e:
-            print("SR.get_name Exception", e)
-            return
+
+        return self.session.xenapi.SR.get_name_label(self.sr)
 
     def get_description(self):
-        try:
-            return self.session.xenapi.SR.get_name_description(self.sr)
-        except Exception as e:
-            print("SR.get_description Exception", e)
-            return None
+
+        return self.session.xenapi.SR.get_name_description(self.sr)
 
     def get_physical_size(self):
-        try:
-            return self.session.xenapi.SR.get_physical_size(self.sr)
-        except Exception as e:
-            print("SR.get_physical_size Exception", e)
-            return None
+
+        return self.session.xenapi.SR.get_physical_size(self.sr)
 
     def get_uuid(self):
-        try:
-            return self.session.xenapi.SR.get_uuid(self.sr)
-        except Exception as e:
-            print("SR.get_uuid Exception", e)
-            return None
+
+        return self.session.xenapi.SR.get_uuid(self.sr)
 
     def get_content_type(self):
-        try:
-            return self.session.xenapi.SR.get_content_type(self.sr)
-        except Exception as e:
-            print("SR.get_content_type Exception", e)
-            return None
+
+        return self.session.xenapi.SR.get_content_type(self.sr)
 
     def get_type(self):
-        try:
-            return self.session.xenapi.SR.get_type(self.sr)
-        except Exception as e:
-            print("SR.get_type Exception", e)
-            return None
+
+        return self.session.xenapi.SR.get_type(self.sr)
 
     def scan(self):
-        try:
-            self.session.xenapi.SR.scan(self.sr)
-        except Exception as e:
-            print("SR.scan Exception", e)
-            return False
+
+        self.session.xenapi.SR.scan(self.sr)
