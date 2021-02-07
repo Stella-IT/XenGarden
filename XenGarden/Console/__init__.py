@@ -15,6 +15,16 @@ class Console:
             "protocol": self.get_protocol(),
             "uuid": self.get_uuid(),
         }
+        
+    @staticmethod
+    def get_by_uuid(session, uuid):
+        """ returns Console object that has specific uuid """
+
+        console = session.xenapi.console.get_by_uuid(uuid)
+        if console is not None:
+            return Console(session, console)
+        else:
+            return None
 
     def get_location(self):
         """ The Location for Console """
@@ -25,15 +35,6 @@ class Console:
         """ Returns UUID of Console """
 
         return self.session.xenapi.console.get_uuid(self.console)
-
-    def get_by_uuid(self, uuid):
-        """ returns Console object that has specific uuid """
-
-        console = self.session.xenapi.Console.get_by_uuid(uuid)
-        if console is not None:
-            return Console(self.session, console)
-        else:
-            return None
 
     def get_protocol(self):
         """ Returns Protocol of Console """

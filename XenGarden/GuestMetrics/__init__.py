@@ -5,6 +5,16 @@ class GuestMetrics:
     def __init__(self, session, guest):
         self.session = session
         self.guest = guest
+        
+    @staticmethod
+    def get_by_uuid(session, uuid):
+        """ returns GuestMetrics object that has specific uuid """
+
+        guest_metrics = session.xenapi.VM_guest_metrics.get_by_uuid(uuid)
+        if console is not None:
+            return GuestMetrics(session, console)
+        else:
+            return None
 
     @deprecated
     def serialize(self):
