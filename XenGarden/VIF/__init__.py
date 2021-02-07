@@ -149,7 +149,7 @@ class VIF:
         return True
 
     def supported_qos_types(self):
-        return self.session.xenapi.VIF.qos_supported_algorithms(self.vif)
+        return self.session.xenapi.VIF.get_qos_supported_algorithms(self.vif)
     
     def config_ipv4(self, ipv4_config_mode: VIFIPv4ConfigurationMode, ip: str, gateway: str):
         self.session.xenapi.VIF.configure_ipv4(self.vif, ipv4_config_mode, ip, gateway)

@@ -11,8 +11,8 @@ class GuestMetrics:
         """ returns GuestMetrics object that has specific uuid """
 
         guest_metrics = session.xenapi.VM_guest_metrics.get_by_uuid(uuid)
-        if console is not None:
-            return GuestMetrics(session, console)
+        if guest_metrics is not None:
+            return GuestMetrics(session, guest_metrics)
         else:
             return None
 
