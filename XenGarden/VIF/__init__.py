@@ -164,8 +164,12 @@ class VIF:
     def get_allowed_address_v4(self):
         return self.session.xenapi.VIF.get_ipv4_allowed(self.vif)
 
-    def set_allowed_address_v4(self, ip):
+    def set_allowed_address_v4(self, ips):
         self.session.xenapi.VIF.set_ipv4_allowed(self.vif, ip)
+        return True
+    
+    def add_allowed_address_v4(self, ip):
+        self.session.xenapi.VIF.add_ipv4_allowed(self.vif, ip)
         return True
 
     def remove_allowed_address_v4(self, ip):
@@ -185,8 +189,12 @@ class VIF:
     def get_allowed_address_v6(self):
         return self.session.xenapi.VIF.get_ipv6_allowed(self.vif)
 
-    def set_allowed_address_v6(self, ip):
+    def set_allowed_address_v6(self, ips):
         self.session.xenapi.VIF.set_ipv6_allowed(self.vif, ip)
+        return True
+    
+    def add_allowed_address_v6(self, ips):
+        self.session.xenapi.VIF.add_ipv6_allowed(self.vif, ip)
         return True
     
     def remove_allowed_address_v6(self, ip):
