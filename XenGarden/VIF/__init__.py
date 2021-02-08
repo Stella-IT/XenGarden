@@ -119,14 +119,17 @@ class VIF:
 
     def get_vm(self):
         from XenGarden.VM import VM
-
-        vm = self.session.xenapi.VIF.get_VM(self.vif)
-
-        if vm is not None:
+        try:
+            vm = self.session.xenapi.VIF.get_VM(self.vif)
             vm = VM(self.session, vm)
+            vm.get_uuid()
+            
             return vm
-        else:
-            return None
+        except Failure as xenapi_error:
+            if xenapi_error.details[0] == "HANDLE_INVALID":
+                return None
+            else:
+                raise xenapi_error
 
     def get_mac(self):
         mac = self.session.xenapi.VIF.get_MAC(self.vif)
@@ -167,11 +170,11 @@ class VIF:
     def set_allowed_address_v4(self, ips):
         self.session.xenapi.VIF.set_ipv4_allowed(self.vif, ip)
         return True
-    
+
     def add_allowed_address_v4(self, ip):
         self.session.xenapi.VIF.add_ipv4_allowed(self.vif, ip)
         return True
-
+    
     def remove_allowed_address_v4(self, ip):
         self.session.xenapi.VIF.remove_ipv4_allowed(self.vif, ip)
         return True
@@ -193,7 +196,7 @@ class VIF:
         self.session.xenapi.VIF.set_ipv6_allowed(self.vif, ip)
         return True
     
-    def add_allowed_address_v6(self, ips):
+    def add_allowed_address_v6(self, ip):
         self.session.xenapi.VIF.add_ipv6_allowed(self.vif, ip)
         return True
     

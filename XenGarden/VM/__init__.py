@@ -14,7 +14,7 @@ class VM:
     @staticmethod
     def get_by_uuid(session, uuid):
         """ returns VM object that has specific uuid """
-
+        
         vm = session.xenapi.VM.get_by_uuid(uuid)
 
         if vm is not None:
@@ -95,10 +95,19 @@ class VM:
 
     def get_guest_metrics(self):
         """ Returns Guest Metrics Object of the VM """
-
-        return GuestMetrics(
-            self.session, self.session.xenapi.VM.get_guest_metrics(self.vm)
-        )
+        try:
+            guest_metrics = self.session.xenapi.VM.get_guest_metrics(self.vm)
+            guest_metrics =  GuestMetrics(
+                self.session, guest_metrics
+            )
+            guest_metrics.get_uuid()
+            
+            return guest_metrics
+        except Failure as xenapi_error:
+            if xenapi_error.details[0] == "HANDLE_INVALID":
+                return None
+            else:
+                raise xenapi_error
 
     def get_snapshots(self):
         """ Returns Available Snapshots (List of VM object) """
@@ -106,8 +115,14 @@ class VM:
         allSnapshots = []
         snapshots = self.session.xenapi.VM.get_snapshots(self.vm)
 
-        for snapshotNo in snapshots:
-            allSnapshots.append(VM(self.session, snapshots[snapshotNo]))
+        for snapshotNo in snapshots:    
+            try:
+                vm = VM(self.session, snapshots[snapshotNo])
+                vm.uuid()
+                
+                allSnapshots.append(vm)
+            except:
+                pass
 
         return allSnapshots
 
@@ -290,28 +305,24 @@ class VM:
     def destroy(self):
         return self.delete()
 
-    def get_VBDs(self):
+    def get_VBDs(self, vbd_type = None):
         from XenGarden.VBD import VBD
 
         vbds = self.session.xenapi.VM.get_VBDs(self.vm)
 
         vbd_list = []
         for vbd in vbds:
-            vbd_list.append(VBD(self.session, vbd))
-
-        return vbd_list
-
-    def get_CDs(self):
-        from XenGarden.VBD import VBD
-
-        vbds = self.session.xenapi.VM.get_VBDs(self.vm)
-
-        vbd_list = []
-        for vbd in vbds:
-            thisVBD = VBD(self.session, vbd)
-
-            if thisVBD.get_type() == "CD":
-                vbd_list.append(thisVBD)
+            try:
+                vbd_obj = VBD(self.session, vbd)
+                vbd_obj.get_uuid()
+                
+                if vbd_type is not None:
+                    if vbd_type == vbd_obj.get_type():
+                        vbd_list.append(vbd_obj)
+                else:
+                    vbd_list.append(vbd_obj)
+            except:
+                pass
 
         return vbd_list
 
@@ -322,31 +333,29 @@ class VM:
 
         vif_list = []
         for vif in vifs:
-            thisVIF = VIF(self.session, vif)
-            vif_list.append(thisVIF)
+            try:
+                thisVIF = VIF(self.session, vif)
+                thisVIF.get_uuid()
+                vif_list.append(thisVIF)
+            except:
+                pass
 
         return vif_list
 
     def get_VIF(self):
         vifs = self.get_VIFs()
-        if vifs is not None:
+        if vifs is not None and len(vifs) > 0:
             return vifs[0]
         else:
             return None
 
     def get_CD(self):
         return self.get_CDs()[0]
-
-    def get_Disks(self):
+    
+    def get_CDs(self):
         from XenGarden.VBD import VBD
 
-        vbds = self.session.xenapi.VM.get_VBDs(self.vm)
+        return self.get_VBDs("CD")
 
-        vbd_list = []
-        for vbd in vbds:
-            thisVBD = VBD(self.session, vbd)
-
-            if thisVBD.get_type() == "Disk":
-                vbd_list.append(thisVBD)
-
-        return vbd_list
+    def get_Disks(self):
+        return self.get_VBDs("Disk")

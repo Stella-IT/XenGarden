@@ -24,7 +24,6 @@ class Host:
         """ returns Host object that has specific name """
 
         host = session.xenapi.host.get_by_name_label(label)
-        print(host)
 
         if host is not None:
             return Host(session, host)

@@ -1,6 +1,7 @@
 from deprecated import deprecated
 
 from XenGarden.VDI import VDI
+from XenAPI.XenAPI import Failure
 
 
 class VBD:
@@ -58,24 +59,34 @@ class VBD:
 
     def get_VM(self):
         """ get VM attached to the specified VBD """
-        from XenGarden.VM import VM
+        
+        try:
+            from XenGarden.VM import VM
 
-        vm = self.session.xenapi.VBD.get_VM(self.vbd)
-
-        if vm is not None:
-            return VM(self.session, vm)
-        else:
-            return None
+            vm = self.session.xenapi.VBD.get_VM(self.vbd)
+            vm = VM(self.session, vm)
+            
+            vm.get_uuid()
+            return vm
+        except Failure as xenapi_error:
+            if xenapi_error.details[0] == "HANDLE_INVALID":
+                return None
+            else:
+                raise xenapi_error
 
     def get_VDI(self) -> VDI:
         """ get VDI attached to the specified VBD """
-
-        vdi = self.session.xenapi.VBD.get_VDI(self.vbd)
-
-        if vdi is not None:
-            return VDI(self.session, vdi)
-        else:
-            return None
+        try:
+            vdi = self.session.xenapi.VBD.get_VDI(self.vbd)
+            vdi = VDI(self.session, vdi)
+            vdi.get_uuid()
+            
+            return vdi
+        except Failure as xenapi_error:
+            if xenapi_error.details[0] == "HANDLE_INVALID":
+                return None
+            else:
+                raise xenapi_error
 
     def get_uuid(self) -> str:
         """ get UUID of VBD """
