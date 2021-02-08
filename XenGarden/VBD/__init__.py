@@ -115,7 +115,7 @@ class VBD:
     def destroy(self) -> bool:
         """ eject VDI from VBD """
 
-        self.session.xenapi.VBD.destory(self.vbd)
+        self.session.xenapi.VBD.destroy(self.vbd)
         return True
 
     def insert(self, vdi: VDI) -> bool:
