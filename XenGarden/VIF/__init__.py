@@ -5,19 +5,23 @@ from XenGarden.Console import Console
 
 from enum import Enum
 
+
 class VIFLockingMode(Enum):
-    DEFAULT = 'network_default'
-    LOCKED = 'locked'
-    UNLOCKED = 'unlocked'
-    DISABLED = 'disabled'
+    DEFAULT = "network_default"
+    LOCKED = "locked"
+    UNLOCKED = "unlocked"
+    DISABLED = "disabled"
+
 
 class VIFIPv4ConfigurationMode(Enum):
-    NONE = 'None'
-    STATIC = 'Static'
+    NONE = "None"
+    STATIC = "Static"
+
 
 class VIFIPv6ConfigurationMode(Enum):
-    NONE = 'None'
-    STATIC = 'Static'
+    NONE = "None"
+    STATIC = "Static"
+
 
 class VIF:
     """ The Virtual Interface """
@@ -85,7 +89,7 @@ class VIF:
 
     def get_attached(self):
         return self.session.xenapi.VIF.get_currently_attached(self.vif)
-    
+
     def plug(self):
         self.session.xenapi.VIF.plug(self.vif)
         return True
@@ -93,22 +97,22 @@ class VIF:
     def unplug(self):
         self.session.xenapi.VIF.unplug(self.vif)
         return True
-    
+
     def unplug_force(self):
         self.session.xenapi.VIF.unplug_force(self.vif)
         return True
-    
+
     def get_locking_mode(self):
         return self.session.xenapi.VIF.get_locking_mode(self.vif)
-    
+
     def set_locking_mode(self, locking_mode: VIFLockingMode):
         self.session.xenapi.VIF.set_locking_mode(self.vif, locking_mode)
         return True
-    
+
     def set_locking_mode(self, locking_mode: VIFLockingMode):
         self.session.xenapi.VIF.set_locking_mode(self.vif, locking_mode)
         return True
-    
+
     def lock(self, locking_mode):
         self.set_locking_mode("locked")
         return True
@@ -119,11 +123,12 @@ class VIF:
 
     def get_vm(self):
         from XenGarden.VM import VM
+
         try:
             vm = self.session.xenapi.VIF.get_VM(self.vif)
             vm = VM(self.session, vm)
             vm.get_uuid()
-            
+
             return vm
         except Failure as xenapi_error:
             if xenapi_error.details[0] == "HANDLE_INVALID":
@@ -153,8 +158,10 @@ class VIF:
 
     def supported_qos_types(self):
         return self.session.xenapi.VIF.get_qos_supported_algorithms(self.vif)
-    
-    def config_ipv4(self, ipv4_config_mode: VIFIPv4ConfigurationMode, ip: str, gateway: str):
+
+    def config_ipv4(
+        self, ipv4_config_mode: VIFIPv4ConfigurationMode, ip: str, gateway: str
+    ):
         self.session.xenapi.VIF.configure_ipv4(self.vif, ipv4_config_mode, ip, gateway)
         return True
 
@@ -174,12 +181,14 @@ class VIF:
     def add_allowed_address_v4(self, ip):
         self.session.xenapi.VIF.add_ipv4_allowed(self.vif, ip)
         return True
-    
+
     def remove_allowed_address_v4(self, ip):
         self.session.xenapi.VIF.remove_ipv4_allowed(self.vif, ip)
         return True
-    
-    def config_ipv6(self, ipv6_config_mode: VIFIPv6ConfigurationMode, ip: str, gateway: str):
+
+    def config_ipv6(
+        self, ipv6_config_mode: VIFIPv6ConfigurationMode, ip: str, gateway: str
+    ):
         self.session.xenapi.VIF.configure_ipv4(self.vif, ipv6_config_mode, ip, gateway)
         return True
 
@@ -195,11 +204,11 @@ class VIF:
     def set_allowed_address_v6(self, ips):
         self.session.xenapi.VIF.set_ipv6_allowed(self.vif, ip)
         return True
-    
+
     def add_allowed_address_v6(self, ip):
         self.session.xenapi.VIF.add_ipv6_allowed(self.vif, ip)
         return True
-    
+
     def remove_allowed_address_v6(self, ip):
         self.session.xenapi.VIF.remove_ipv6_allowed(self.vif, ip)
         return True

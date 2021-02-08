@@ -5,7 +5,7 @@ class GuestMetrics:
     def __init__(self, session, guest):
         self.session = session
         self.guest = guest
-        
+
     @staticmethod
     def get_by_uuid(session, uuid):
         """ returns GuestMetrics object that has specific uuid """

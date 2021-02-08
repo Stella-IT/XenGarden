@@ -15,7 +15,7 @@ class Console:
             "protocol": self.get_protocol(),
             "uuid": self.get_uuid(),
         }
-        
+
     @staticmethod
     def get_by_uuid(session, uuid):
         """ returns Console object that has specific uuid """
