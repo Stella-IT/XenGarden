@@ -1,4 +1,5 @@
 from deprecated import deprecated
+from XenGarden.Common import Common
 
 
 class Console:
@@ -9,15 +10,19 @@ class Console:
         self.console = console
 
     @deprecated
-    def serialize(self) -> dict:
+    async def serialize(self) -> dict:
+        (location, protocol, uuid) = asyncio.gather(
+            self.get_location(), self.get_protocol(), self.get_uuid()
+        )
+        
         return {
-            "location": self.get_location(),
-            "protocol": self.get_protocol(),
-            "uuid": self.get_uuid(),
+            "location": location,
+            "protocol": protocol,
+            "uuid": uuid,
         }
 
     @staticmethod
-    def get_by_uuid(session, uuid):
+    async def get_by_uuid(session, uuid):
         """ returns Console object that has specific uuid """
 
         console = session.xenapi.console.get_by_uuid(uuid)
@@ -26,22 +31,21 @@ class Console:
         else:
             return None
 
-    def get_location(self):
+    async def get_location(self):
         """ The Location for Console """
 
         return self.session.xenapi.console.get_location(self.console)
 
-    def get_uuid(self):
+    async def get_uuid(self):
         """ Returns UUID of Console """
 
         return self.session.xenapi.console.get_uuid(self.console)
 
-    def get_protocol(self):
+    async def get_protocol(self):
         """ Returns Protocol of Console """
-
         return self.session.xenapi.console.get_protocol(self.console)
 
-    def get_VM(self):
+    async def get_VM(self):
         """ Returns which VM is this console attached to """
 
-        return self.session.xenapi.console.get_VM(self.console)
+        return self.session.xenapi.Async.console.get_VM(self.console)

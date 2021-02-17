@@ -56,37 +56,13 @@ class VIF:
 
         return allVIFList
 
-    @deprecated
-    def serialize(self) -> dict:
-        """ Returns Info for of the VM """
-        vm = self.get_vm()
-        if vm is not None:
-            vm = vm.serialize()
-
-        return {
-            "attached": self.get_attached(),
-            "_vm": vm,
-            "uuid": self.get_uuid(),
-            "mac": self.get_mac(),
-            "mtu": self.get_mtu(),
-            "qos": {
-                "type": self.get_qos_type(),
-                "info": self.get_qos_info(),
-                "supported": self.supported_qos_types(),
-            },
-            "ipv4": {
-                "address": self.get_address_v4(),
-                "gateway": self.get_gateway_v4(),
-            },
-            "ipv6": {
-                "address": self.get_address_v6(),
-                "gateway": self.get_gateway_v6(),
-            },
-        }
-
     def get_uuid(self):
         return self.session.xenapi.VIF.get_uuid(self.vif)
-
+        
+    def get_record(self):
+        """ Returns Information of the VIF """
+        return self.session.xenapi.VIF.get_record(self.vif)
+    
     def get_attached(self):
         return self.session.xenapi.VIF.get_currently_attached(self.vif)
 

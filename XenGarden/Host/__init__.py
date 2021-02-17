@@ -45,6 +45,9 @@ class Host:
 
         return allHostList
 
+    def get_record(self):
+        return self.session.xenapi.Host.get_record(self.host)
+    
     @deprecated
     def serialize(self) -> dict:
 

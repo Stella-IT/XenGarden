@@ -44,6 +44,9 @@ class SR:
             return SR(session, sr)
         else:
             return None
+      
+    def get_record(self):
+        return self.session.xenapi.SR.get_record(self.sr)
 
     @deprecated
     def serialize(self) -> dict:

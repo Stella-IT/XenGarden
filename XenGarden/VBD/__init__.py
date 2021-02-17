@@ -87,6 +87,10 @@ class VBD:
                 return None
             else:
                 raise xenapi_error
+            
+    def get_record(self):
+        """ Returns Information of the VM """
+        return self.session.xenapi.VBD.get_record(self.vbd)
 
     def get_uuid(self) -> str:
         """ get UUID of VBD """

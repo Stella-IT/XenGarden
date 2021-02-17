@@ -3,6 +3,8 @@ from deprecated import deprecated
 from XenGarden.Console import Console
 from XenGarden.GuestMetrics import GuestMetrics
 
+import math
+
 
 class VM:
     """ The Virtual Machine Object """
@@ -64,19 +66,10 @@ class VM:
         """ Returns rather this _vm is template """
 
         return self.session.xenapi.VM.get_is_a_template(self.vm)
-
-    @deprecated
-    def serialize(self):
-        """ Returns Info for of the VM """
-        return {
-            "name": self.get_name(),
-            "bios": self.get_bios_strings(),
-            "power": self.get_power_state(),
-            "description": self.get_description(),
-            "uuid": self.get_uuid(),
-            "vCPUs": self.get_vCPUs(),
-            "memory": self.get_memory(),
-        }
+        
+    def get_record(self):
+        """ Returns Information of the VM """
+        return self.session.xenapi.VM.get_record(self.vm)
 
     def get_power_state(self):
         """ Returns Power State of the VM """
@@ -138,144 +131,141 @@ class VM:
         #
         return True
 
-    def start(self):
+    async def start(self):
         """ Starts VM (Returns Boolean, True: Success, False: Fail) """
 
-        self.session.xenapi.VM.start(self.vm, False, False)
+        task = self.session.xenapi.Async.VM.start(self.vm, False, False)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def shutdown(self):
+    async def shutdown(self):
         """ Shutdowns VM (Returns Boolean, True: Success, False: Fail) """
 
-        self.session.xenapi.VM.clean_shutdown(self.vm)
+        task = self.session.xenapi.Async.VM.clean_shutdown(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def force_shutdown(self):
+    async def force_shutdown(self):
         """ Force Shutdown VM (Returns Boolean, True: Success, False: Fail) """
 
-        self.session.xenapi.VM.hard_shutdown(self.vm)
+        task = self.session.xenapi.Async.VM.hard_shutdown(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def reboot(self):
+    async def reboot(self):
         """ Reboot VM (Returns Boolean, True: Success, False: Fail) """
 
-        self.session.xenapi.VM.clean_reboot(self.vm)
+        task = self.session.xenapi.Async.VM.clean_reboot(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def force_reboot(self):
+    async def force_reboot(self):
         """ Force Reboot VM (Returns Boolean, True: Success, False: Fail) """
 
-        self.session.xenapi.VM.hard_reboot(self.vm)
+        task = self.session.xenapi.Async.VM.hard_reboot(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def snapshot(self, snapshot_name):
+    async def snapshot(self, snapshot_name):
         """ Take a snapshot of current VM """
 
-        self.session.xenapi.VM.snapshot(self.vm, snapshot_name)
+        task = self.session.xenapi.Async.VM.snapshot(self.vm, snapshot_name)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def suspend(self):
-
-        self.session.xenapi.VM.suspend(self.vm)
-
-        return True
-
-    def resume(self):
-
-        self.session.xenapi.VM.resume(self.vm, True, False)
+    async def suspend(self):
+        """ Suspend VM """
+        task = self.session.xenapi.Async.VM.suspend(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def pause(self):
-
-        self.session.xenapi.VM.pause(self.vm)
-
-        return True
-
-    def unpause(self):
-
-        self.session.xenapi.VM.unpause(self.vm)
+    async def resume(self):
+        task = self.session.xenapi.VM.resume(self.vm, True, False)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
-    def clone(self, new_name):
+    async def pause(self):
+        task = self.session.xenapi.Async.VM.pause(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
-        vm = self.session.xenapi.VM.clone(self.vm, new_name)
-        self.session.xenapi.VM.set_is_a_template(vm, False)
-        return VM(self.session, vm)
+        return True
 
-        return None
+    async def unpause(self):
+        task = self.session.xenapi.Async.VM.unpause(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
 
+        return True
+    
+    async def provision(self):
+        self.session.xenapi.Async.VM.provision(self.vm)
+        await Common.xenapi_task_handler(self.session, task, True)
+
+        return True
+
+    async def clone(self, new_name):
+        task = self.session.xenapi.Async.VM.clone(self.vm, new_name)
+        data = await Common.xenapi_task_handler(self.session, task, True)
+        vm = VM(self.session, data)
+        
+        return vm
+
+    async def copy(self, new_name):
+        task = self.session.xenapi.Async.VM.copy(self.vm, new_name)
+        data = await Common.xenapi_task_handler(self.session, task, True)
+        vm = VM(self.session, data)
+        
+        return vm
+    
     def set_name(self, name):
-
         self.session.xenapi.VM.set_name_label(self.vm, name)
-        #
         return True
 
     def set_description(self, description):
-
         self.session.xenapi.VM.set_name_description(self.vm, description)
-        #
         return True
 
-    def set_vCPUs(self, vCPUs):
-
+    def set_vCPUs(self, vCPUs, sockets=1):
         tmp_platform = self.session.xenapi.VM.get_platform(
             self.vm,
         )
-        vCPU_platform = {"cores-per-socket": str(vCPUs)}
+        vCPU_platform = {"cores-per-socket": str(math.floor(vCPUs / sockets))}
 
         platform = {**tmp_platform, **vCPU_platform}
 
         self.session.xenapi.VM.set_platform(self.vm, platform)
         self.session.xenapi.VM.set_VCPUs_max(self.vm, vCPUs)
         self.session.xenapi.VM.set_VCPUs_at_startup(self.vm, vCPUs)
-        #
+        
         return True
 
     def set_memory(self, memory):
-
         self.session.xenapi.VM.set_memory_limits(
             self.vm, memory, memory, memory, memory
         )
-        #
         return True
 
     def get_platform(self):
-
         return self.session.xenapi.VM.get_platform(self.vm)
-        #
-        return None
 
     def set_platform(self, platform):
-
         return self.session.xenapi.VM.set_platform(self.vm, platform)
-        #
-        return None
 
     def get_vCPUs(self):
-
         return self.session.xenapi.VM.get_VCPUs_at_startup(self.vm)
-        #
-        return None
 
     def get_vCPU_params(self):
-
         return self.session.xenapi.VM.get_VCPUs_params(self.vm)
-        #
-        return None
 
     def get_bios_strings(self):
-
         return self.session.xenapi.VM.get_bios_strings(self.vm)
-        #
-        return None
 
     def set_bios_strings(self, input_bios_str):
 
@@ -283,25 +273,25 @@ class VM:
         bios_str = {**tmp_bios_str, **input_bios_str}
         self.session.xenapi.VM.set_bios_strings(self.vm, bios_str)
         return True
-        #
-        return None
 
     def get_memory(self):
 
         return self.session.xenapi.VM.get_memory_static_max(self.vm)
 
-    def delete(self):
+    async def delete(self):
         from XenGarden.VBD import VBD
 
         vbds = self.get_Disks()
         for vbd in vbds:
             vbd.destroy()
-
-        self.session.xenapi.VM.destroy(self.vm)
+            
+        task = self.session.xenapi.Async.VM.destroy(self.vm)
+        data = await Common.xenapi_task_handler(self.session, task, True)
+        
         return True
 
-    def destroy(self):
-        return self.delete()
+    async def destroy(self):
+        return await self.delete()
 
     def get_VBDs(self, vbd_type=None):
         from XenGarden.VBD import VBD
@@ -357,3 +347,4 @@ class VM:
 
     def get_Disks(self):
         return self.get_VBDs("Disk")
+    
