@@ -42,7 +42,7 @@ class VDI:
             vdi_list.append(VDI(session, vdi))
 
         return vdi_list
-            
+
     def get_record(self):
         return self.session.xenapi.VDI.get_record(self.vdi)
 

@@ -14,7 +14,7 @@ class Console:
         (location, protocol, uuid) = asyncio.gather(
             self.get_location(), self.get_protocol(), self.get_uuid()
         )
-        
+
         return {
             "location": location,
             "protocol": protocol,

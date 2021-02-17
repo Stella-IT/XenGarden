@@ -66,7 +66,7 @@ class VM:
         """ Returns rather this _vm is template """
 
         return self.session.xenapi.VM.get_is_a_template(self.vm)
-        
+
     def get_record(self):
         """ Returns Information of the VM """
         return self.session.xenapi.VM.get_record(self.vm)
@@ -203,7 +203,7 @@ class VM:
         await Common.xenapi_task_handler(self.session, task, True)
 
         return True
-    
+
     async def provision(self):
         self.session.xenapi.Async.VM.provision(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -214,16 +214,16 @@ class VM:
         task = self.session.xenapi.Async.VM.clone(self.vm, new_name)
         data = await Common.xenapi_task_handler(self.session, task, True)
         vm = VM(self.session, data)
-        
+
         return vm
 
     async def copy(self, new_name):
         task = self.session.xenapi.Async.VM.copy(self.vm, new_name)
         data = await Common.xenapi_task_handler(self.session, task, True)
         vm = VM(self.session, data)
-        
+
         return vm
-    
+
     def set_name(self, name):
         self.session.xenapi.VM.set_name_label(self.vm, name)
         return True
@@ -243,7 +243,7 @@ class VM:
         self.session.xenapi.VM.set_platform(self.vm, platform)
         self.session.xenapi.VM.set_VCPUs_max(self.vm, vCPUs)
         self.session.xenapi.VM.set_VCPUs_at_startup(self.vm, vCPUs)
-        
+
         return True
 
     def set_memory(self, memory):
@@ -284,10 +284,10 @@ class VM:
         vbds = self.get_Disks()
         for vbd in vbds:
             vbd.destroy()
-            
+
         task = self.session.xenapi.Async.VM.destroy(self.vm)
         data = await Common.xenapi_task_handler(self.session, task, True)
-        
+
         return True
 
     async def destroy(self):
@@ -347,4 +347,3 @@ class VM:
 
     def get_Disks(self):
         return self.get_VBDs("Disk")
-    

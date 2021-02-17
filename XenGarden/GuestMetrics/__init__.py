@@ -15,7 +15,7 @@ class GuestMetrics:
             return GuestMetrics(session, guest_metrics)
         else:
             return None
-        
+
     def get_record(self):
         return self.session.xenapi.VM.get_record(self.guest)
 

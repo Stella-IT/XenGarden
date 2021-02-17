@@ -58,11 +58,11 @@ class VIF:
 
     def get_uuid(self):
         return self.session.xenapi.VIF.get_uuid(self.vif)
-        
+
     def get_record(self):
         """ Returns Information of the VIF """
         return self.session.xenapi.VIF.get_record(self.vif)
-    
+
     def get_attached(self):
         return self.session.xenapi.VIF.get_currently_attached(self.vif)
 
