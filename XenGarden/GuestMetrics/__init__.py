@@ -26,6 +26,10 @@ class GuestMetrics:
             "os": self.get_os_version(),
             "networks": self.get_networks(),
         }
+        
+    def get_record(self):
+        """ Returns Information of the Guest """
+        return self.session.xenapi.VM_guest_metrics.get_record(self.guest)
 
     def get_uuid(self):
         """ Gets UUID of Guest Metrics """

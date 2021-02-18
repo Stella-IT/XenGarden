@@ -1,5 +1,6 @@
 from deprecated import deprecated
 
+from XenGarden.Common import Common
 from XenGarden.Console import Console
 from XenGarden.GuestMetrics import GuestMetrics
 

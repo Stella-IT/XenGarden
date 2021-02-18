@@ -1,5 +1,4 @@
 from deprecated import deprecated
-from XenGarden.Common import Common
 
 
 class Console:
@@ -22,7 +21,7 @@ class Console:
         }
 
     @staticmethod
-    async def get_by_uuid(session, uuid):
+    def get_by_uuid(session, uuid):
         """ returns Console object that has specific uuid """
 
         console = session.xenapi.console.get_by_uuid(uuid)
@@ -30,22 +29,26 @@ class Console:
             return Console(session, console)
         else:
             return None
+        
+    def get_record(self):
+        """ Returns Information of the Console """
+        return self.session.xenapi.console.get_record(self.console)
 
-    async def get_location(self):
+    def get_location(self):
         """ The Location for Console """
 
         return self.session.xenapi.console.get_location(self.console)
 
-    async def get_uuid(self):
+    def get_uuid(self):
         """ Returns UUID of Console """
 
         return self.session.xenapi.console.get_uuid(self.console)
 
-    async def get_protocol(self):
+    def get_protocol(self):
         """ Returns Protocol of Console """
         return self.session.xenapi.console.get_protocol(self.console)
 
-    async def get_VM(self):
+    def get_VM(self):
         """ Returns which VM is this console attached to """
 
         return self.session.xenapi.Async.console.get_VM(self.console)
