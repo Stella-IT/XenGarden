@@ -81,6 +81,13 @@ class VDI:
     def destroy(self):
 
         return self.session.xenapi.VDI.destroy(self.vdi)
+    
+    def get_SR(self):
+        
+        data = self.session.xenapi.VDI.get_SR(self.vdi)
+        sr = SR(self.session, data)
+        
+        return sr
 
     async def clone(self):
         
