@@ -1,7 +1,6 @@
 from deprecated import deprecated
 
 from XenGarden.Common import Common
-from XenGarden.SR import SR
 
 class VDI:
     """ The Virtual Disk Image Object """
@@ -83,6 +82,7 @@ class VDI:
         return self.session.xenapi.VDI.destroy(self.vdi)
     
     def get_SR(self):
+        from XenGarden.SR import SR
         
         data = self.session.xenapi.VDI.get_SR(self.vdi)
         sr = SR(self.session, data)
@@ -97,7 +97,7 @@ class VDI:
         vdi = VDI(self.session, data)
         return vdi
     
-    async def copy(self, sr: SR):
+    async def copy(self, sr):
         
         task = self.session.xenapi.Async.VDI.copy(self.vdi, sr.sr)
         data = await Common.xenapi_task_handler(self.session, task, True)

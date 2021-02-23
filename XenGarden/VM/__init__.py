@@ -2,6 +2,7 @@ from deprecated import deprecated
 
 from XenGarden.Common import Common
 from XenGarden.GuestMetrics import GuestMetrics
+from XenGarden.SR import SR
 
 import math
 
@@ -217,8 +218,8 @@ class VM:
 
         return vm
 
-    async def copy(self, new_name):
-        task = self.session.xenapi.Async.VM.copy(self.vm, new_name)
+    async def copy(self, new_name, sr: SR):
+        task = self.session.xenapi.Async.VM.copy(self.vm, new_name, sr.sr)
         data = await Common.xenapi_task_handler(self.session, task, True)
         vm = VM(self.session, data)
 
