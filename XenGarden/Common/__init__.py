@@ -23,7 +23,7 @@ class Common:
 
     @classmethod
     async def xenapi_task_handler(
-        cls, session, task, ignore_timeout=False, show_progress=True
+        cls, session, task, ignore_timeout=False, show_progress=False
     ):
         """A pseudo-xenapi asyncio-ifier via implementing event loop by myself."""
         cycle_passed = 0
