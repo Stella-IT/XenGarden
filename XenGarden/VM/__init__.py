@@ -281,7 +281,7 @@ class VM:
         return self.session.xenapi.VM.get_memory_static_max(self.vm)
 
     async def delete(self):
-        pass
+        from XenGarden.VBD import VBD
 
         vbds = self.get_Disks()
         for vbd in vbds:
@@ -343,8 +343,6 @@ class VM:
         return self.get_CDs()[0]
 
     def get_CDs(self):
-        pass
-
         return self.get_VBDs("CD")
 
     def get_Disks(self):
