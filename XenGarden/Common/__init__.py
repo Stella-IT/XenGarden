@@ -1,4 +1,5 @@
 import asyncio
+
 import XenAPI
 
 
@@ -21,7 +22,9 @@ class Common:
     TIMEOUT = 5000
 
     @classmethod
-    async def xenapi_task_handler(cls, session, task, ignore_timeout=False):
+    async def xenapi_task_handler(
+        cls, session, task, ignore_timeout=False, show_progress=True
+    ):
         """A pseudo-xenapi asyncio-ifier via implementing event loop by myself."""
         cycle_passed = 0
 
@@ -31,17 +34,21 @@ class Common:
 
             await asyncio.sleep(1)
 
-            # progress = round(session.xenapi.task.get_progress(task), 2) * 100
-            # print(str(progress)+"% Complete!", flush=True)
+            if show_progress:
+                progress = round(session.xenapi.task.get_progress(task), 2) * 100
+                print(str(progress) + "% Complete!", flush=True)
 
             cycle_passed += 1
 
         if cycle_passed > cls.TIMEOUT:
-            raise TimeoutException()
+            raise XenGardenAsyncTimeoutException()
 
-        record = session.xenapi.task.get_record(task)
+        session.xenapi.task.get_record(task)
         result = session.xenapi.task.get_result(task)
         error = session.xenapi.task.get_error_info(task)
+
+        result = result.replace("<value>", "")
+        result = result.replace("</value>", "")
 
         if len(error) > 0:
             raise XenAPI.Failure(error)

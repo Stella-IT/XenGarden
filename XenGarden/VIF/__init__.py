@@ -1,9 +1,6 @@
-from deprecated import deprecated
-
-from XenGarden.GuestMetrics import GuestMetrics
-from XenGarden.Console import Console
-
 from enum import Enum
+
+from XenAPI.XenAPI import Failure
 
 
 class VIFLockingMode(Enum):
@@ -151,7 +148,7 @@ class VIF:
         return self.session.xenapi.VIF.get_ipv4_allowed(self.vif)
 
     def set_allowed_address_v4(self, ips):
-        self.session.xenapi.VIF.set_ipv4_allowed(self.vif, ip)
+        self.session.xenapi.VIF.set_ipv4_allowed(self.vif, ips)
         return True
 
     def add_allowed_address_v4(self, ip):
@@ -178,7 +175,7 @@ class VIF:
         return self.session.xenapi.VIF.get_ipv6_allowed(self.vif)
 
     def set_allowed_address_v6(self, ips):
-        self.session.xenapi.VIF.set_ipv6_allowed(self.vif, ip)
+        self.session.xenapi.VIF.set_ipv6_allowed(self.vif, ips)
         return True
 
     def add_allowed_address_v6(self, ip):

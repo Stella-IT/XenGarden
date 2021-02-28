@@ -1,10 +1,11 @@
-from deprecated import deprecated
+import math
+
+from XenAPI.XenAPI import Failure
 
 from XenGarden.Common import Common
+from XenGarden.Console import Console
 from XenGarden.GuestMetrics import GuestMetrics
 from XenGarden.SR import SR
-
-import math
 
 
 class VM:
@@ -206,7 +207,7 @@ class VM:
         return True
 
     async def provision(self):
-        self.session.xenapi.Async.VM.provision(self.vm)
+        task = self.session.xenapi.Async.VM.provision(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
 
         return True
@@ -280,14 +281,14 @@ class VM:
         return self.session.xenapi.VM.get_memory_static_max(self.vm)
 
     async def delete(self):
-        from XenGarden.VBD import VBD
+        pass
 
         vbds = self.get_Disks()
         for vbd in vbds:
             vbd.destroy()
 
         task = self.session.xenapi.Async.VM.destroy(self.vm)
-        data = await Common.xenapi_task_handler(self.session, task, True)
+        await Common.xenapi_task_handler(self.session, task, True)
 
         return True
 
@@ -342,7 +343,7 @@ class VM:
         return self.get_CDs()[0]
 
     def get_CDs(self):
-        from XenGarden.VBD import VBD
+        pass
 
         return self.get_VBDs("CD")
 

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='XenGarden',
-    version='1.2.3',
+    version='1.2.4',
     description='XenGarden, A Python XenAPI Wrapper for Citrix Hypervisor and XCP-ng Servers',
     author='Stella IT',
     author_email='contact@stella-it.com',

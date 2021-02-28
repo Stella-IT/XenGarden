@@ -1,7 +1,8 @@
 from deprecated import deprecated
+from XenAPI.XenAPI import Failure
 
 from XenGarden.VDI import VDI
-from XenAPI.XenAPI import Failure
+from XenGarden.VM import VM
 
 
 class VBD:
@@ -33,6 +34,42 @@ class VBD:
             vbd_list.append(VBD(session, vbd))
 
         return vbd_list
+
+    @staticmethod
+    def create(
+        session,
+        vm: VM,
+        vdi: VDI,
+        userdevice="0",
+        bootable=True,
+        mode="RW",
+        disk_type="Disk",
+        empty=False,
+        qos_algorithm_type="",
+        qos_algorithm_params={},
+        other_config={},
+        **kwargs
+    ):
+        _vm = vm.vm
+        _vdi = vdi.vdi
+
+        _vbd = session.xenapi.VBD.create(
+            {
+                "VM": _vm,
+                "VDI": _vdi,
+                "userdevice": userdevice,
+                "bootable": bootable,
+                "mode": mode,
+                "type": disk_type,
+                "empty": empty,
+                "qos_algorithm_type": qos_algorithm_type,
+                "qos_algorithm_params": qos_algorithm_params,
+                "other_config": other_config,
+                **kwargs,
+            }
+        )
+
+        return VBD(session, _vbd)
 
     @deprecated
     def serialize(self) -> dict:

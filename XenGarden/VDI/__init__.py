@@ -2,6 +2,7 @@ from deprecated import deprecated
 
 from XenGarden.Common import Common
 
+
 class VDI:
     """ The Virtual Disk Image Object """
 
@@ -76,38 +77,42 @@ class VDI:
     def get_location(self):
 
         return self.session.xenapi.VDI.get_location(self.vdi)
-    
+
+    def get_virtual_size(self) -> str:
+
+        return self.session.xenapi.VDI.get_virtual_size(self.vdi)
+
     def destroy(self):
 
         return self.session.xenapi.VDI.destroy(self.vdi)
-    
+
     def get_SR(self):
         from XenGarden.SR import SR
-        
+
         data = self.session.xenapi.VDI.get_SR(self.vdi)
         sr = SR(self.session, data)
-        
+
         return sr
 
     async def clone(self):
-        
+
         task = self.session.xenapi.Async.VDI.clone(self.vdi)
         data = await Common.xenapi_task_handler(self.session, task, True)
-        
+
         vdi = VDI(self.session, data)
         return vdi
-    
+
     async def copy(self, sr):
-        
+
         task = self.session.xenapi.Async.VDI.copy(self.vdi, sr.sr)
         data = await Common.xenapi_task_handler(self.session, task, True)
-        
+
         vdi = VDI(self.session, data)
         return vdi
-    
-    async def resize(self, size: int):
-        
+
+    async def resize(self, size: str):
+
         task = self.session.xenapi.Async.VDI.resize(self.vdi, size)
-        data = await Common.xenapi_task_handler(self.session, task, True)
-        
+        await Common.xenapi_task_handler(self.session, task, True)
+
         return True

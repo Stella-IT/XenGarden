@@ -91,10 +91,9 @@ class SR:
     def get_physical_size(self):
 
         return self.session.xenapi.SR.get_physical_size(self.sr)
-    
-    
+
     def get_physical_utilisation(self):
-        
+
         return self.session.xenapi.SR.get_physical_utilisation(self.sr)
 
     def get_uuid(self):

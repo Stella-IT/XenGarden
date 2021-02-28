@@ -1,12 +1,11 @@
+from XenGarden.Console import Console
+from XenGarden.GuestMetrics import GuestMetrics
+from XenGarden.Host import Host
 from XenGarden.SR import SR
 from XenGarden.VBD import VBD
 from XenGarden.VDI import VDI
 from XenGarden.VIF import VIF
-from XenGarden.Console import Console
-from XenGarden.GuestMetrics import GuestMetrics
-from XenGarden.Host import Host
 from XenGarden.VM import VM
-from XenGarden.session import create_session
 
 __all__ = [
     "SR",

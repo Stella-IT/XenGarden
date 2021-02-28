@@ -1,3 +1,5 @@
+import asyncio
+
 from deprecated import deprecated
 
 
@@ -29,7 +31,7 @@ class Console:
             return Console(session, console)
         else:
             return None
-        
+
     def get_record(self):
         """ Returns Information of the Console """
         return self.session.xenapi.console.get_record(self.console)
