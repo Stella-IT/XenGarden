@@ -120,7 +120,7 @@ class VIF:
         return self.session.xenapi.VIF.get_qos_algorithm_type(self.vif)
 
     def set_qos_type(self, qos_type):
-        return self.session.xenapi.VIF.get_qos_algorithm_type(self.vif, qos_type)
+        return self.session.xenapi.VIF.set_qos_algorithm_type(self.vif, qos_type)
 
     def get_qos_info(self):
         return self.session.xenapi.VIF.get_qos_algorithm_params(self.vif)
