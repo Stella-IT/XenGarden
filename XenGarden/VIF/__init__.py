@@ -2,8 +2,8 @@ from enum import Enum
 
 from XenAPI.XenAPI import Failure
 
-from XenGarden.VM import VM
 from XenGarden.Network import Network
+from XenGarden.VM import VM
 
 
 class VIFLockingMode(Enum):
