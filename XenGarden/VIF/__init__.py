@@ -56,7 +56,9 @@ class VIF:
         return allVIFList
 
     @staticmethod
-    def create(self, device: str, network: str, vm: VM, mac: str, mtu: int, **kwargs):
+    def create(
+        session, device: str, network: str, vm: VM, mac: str, mtu: int, **kwargs
+    ):
         props = dict(
             device=device,
             network=network,
@@ -66,8 +68,8 @@ class VIF:
             **kwargs,
         )
 
-        vif_raw = self.session.xenapi.VIF.create(props)
-        return VIF(vif_raw)
+        vif_raw = session.xenapi.VIF.create(props)
+        return VIF(session, vif_raw)
 
     def get_uuid(self):
         return self.session.xenapi.VIF.get_uuid(self.vif)
