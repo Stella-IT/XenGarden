@@ -2,6 +2,8 @@ from enum import Enum
 
 from XenAPI.XenAPI import Failure
 
+from XenGarden import VM
+
 
 class VIFLockingMode(Enum):
     DEFAULT = "network_default"
@@ -21,7 +23,7 @@ class VIFIPv6ConfigurationMode(Enum):
 
 
 class VIF:
-    """ The Virtual Interface """
+    """The Virtual Interface"""
 
     def __init__(self, session, vif):
         self.session = session
@@ -29,7 +31,7 @@ class VIF:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns VIF object that has specific uuid """
+        """returns VIF object that has specific uuid"""
 
         vif = session.xenapi.VIF.get_by_uuid(uuid)
 
@@ -53,11 +55,25 @@ class VIF:
 
         return allVIFList
 
+    @staticmethod
+    def create(self, device: str, network: str, vm: VM, mac: str, mtu: int, **kwargs):
+        props = dict(
+            device=device,
+            network=network,
+            vm=vm,
+            mac=mac,
+            mtu=mtu,
+            **kwargs,
+        )
+
+        vif_raw = self.session.xenapi.VIF.create(props)
+        return VIF(vif_raw)
+
     def get_uuid(self):
         return self.session.xenapi.VIF.get_uuid(self.vif)
 
     def get_record(self):
-        """ Returns Information of the VIF """
+        """Returns Information of the VIF"""
         return self.session.xenapi.VIF.get_record(self.vif)
 
     def get_attached(self):

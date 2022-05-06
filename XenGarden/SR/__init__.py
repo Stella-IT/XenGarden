@@ -4,7 +4,7 @@ from XenGarden.VDI import VDI
 
 
 class SR:
-    """ The Storage Repository Object """
+    """The Storage Repository Object"""
 
     def __init__(self, session, sr):
         self.session = session
@@ -12,7 +12,7 @@ class SR:
 
     @staticmethod
     def get_all(session):
-        """ get all SR object available """
+        """get all SR object available"""
 
         srs = session.xenapi.SR.get_all()
 
@@ -24,7 +24,7 @@ class SR:
 
     @staticmethod
     def get_by_name(session, name):
-        """ returns SR object that has specific name"""
+        """returns SR object that has specific name"""
 
         srs = session.xenapi.SR.get_by_name_label(name)
 
@@ -36,7 +36,7 @@ class SR:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns SR object that has specific uuid """
+        """returns SR object that has specific uuid"""
 
         sr = session.xenapi.SR.get_by_uuid(uuid)
 
@@ -50,7 +50,7 @@ class SR:
 
     @deprecated
     def serialize(self) -> dict:
-        """ Returns Info of this SR """
+        """Returns Info of this SR"""
         vdis = self.get_VDIs()
         vdi_list = []
 

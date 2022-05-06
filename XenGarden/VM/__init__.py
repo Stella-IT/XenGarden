@@ -9,7 +9,7 @@ from XenGarden.SR import SR
 
 
 class VM:
-    """ The Virtual Machine Object """
+    """The Virtual Machine Object"""
 
     def __init__(self, session, vm):
         self.session = session
@@ -17,7 +17,7 @@ class VM:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns VM object that has specific uuid """
+        """returns VM object that has specific uuid"""
 
         vm = session.xenapi.VM.get_by_uuid(uuid)
 
@@ -60,26 +60,26 @@ class VM:
         return allVMList
 
     def get_uuid(self):
-        """ get UUID of VM """
+        """get UUID of VM"""
 
         return self.session.xenapi.VM.get_uuid(self.vm)
 
     def is_template(self):
-        """ Returns rather this _vm is template """
+        """Returns rather this _vm is template"""
 
         return self.session.xenapi.VM.get_is_a_template(self.vm)
 
     def get_record(self):
-        """ Returns Information of the VM """
+        """Returns Information of the VM"""
         return self.session.xenapi.VM.get_record(self.vm)
 
     def get_power_state(self):
-        """ Returns Power State of the VM """
+        """Returns Power State of the VM"""
 
         return self.session.xenapi.VM.get_power_state(self.vm)
 
     def get_consoles(self):
-        """ Returns Consoles of the VM """
+        """Returns Consoles of the VM"""
 
         consoles = self.session.xenapi.VM.get_consoles(self.vm)
 
@@ -89,7 +89,7 @@ class VM:
         return consoleList
 
     def get_guest_metrics(self):
-        """ Returns Guest Metrics Object of the VM """
+        """Returns Guest Metrics Object of the VM"""
         try:
             guest_metrics = self.session.xenapi.VM.get_guest_metrics(self.vm)
             guest_metrics = GuestMetrics(self.session, guest_metrics)
@@ -103,7 +103,7 @@ class VM:
                 raise xenapi_error
 
     def get_snapshots(self):
-        """ Returns Available Snapshots (List of VM object) """
+        """Returns Available Snapshots (List of VM object)"""
 
         allSnapshots = []
         snapshots = self.session.xenapi.VM.get_snapshots(self.vm)
@@ -120,21 +120,21 @@ class VM:
         return allSnapshots
 
     def get_name(self):
-        """ Returns VM's XenServer Name """
+        """Returns VM's XenServer Name"""
 
         return self.session.xenapi.VM.get_name_label(self.vm)
         #
         return True
 
     def get_description(self):
-        """ Returns VM's XenServer Description """
+        """Returns VM's XenServer Description"""
 
         return self.session.xenapi.VM.get_name_description(self.vm)
         #
         return True
 
     async def start(self):
-        """ Starts VM (Returns Boolean, True: Success, False: Fail) """
+        """Starts VM (Returns Boolean, True: Success, False: Fail)"""
 
         task = self.session.xenapi.Async.VM.start(self.vm, False, False)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -142,7 +142,7 @@ class VM:
         return True
 
     async def shutdown(self):
-        """ Shutdowns VM (Returns Boolean, True: Success, False: Fail) """
+        """Shutdowns VM (Returns Boolean, True: Success, False: Fail)"""
 
         task = self.session.xenapi.Async.VM.clean_shutdown(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -150,7 +150,7 @@ class VM:
         return True
 
     async def force_shutdown(self):
-        """ Force Shutdown VM (Returns Boolean, True: Success, False: Fail) """
+        """Force Shutdown VM (Returns Boolean, True: Success, False: Fail)"""
 
         task = self.session.xenapi.Async.VM.hard_shutdown(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -158,7 +158,7 @@ class VM:
         return True
 
     async def reboot(self):
-        """ Reboot VM (Returns Boolean, True: Success, False: Fail) """
+        """Reboot VM (Returns Boolean, True: Success, False: Fail)"""
 
         task = self.session.xenapi.Async.VM.clean_reboot(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -166,7 +166,7 @@ class VM:
         return True
 
     async def force_reboot(self):
-        """ Force Reboot VM (Returns Boolean, True: Success, False: Fail) """
+        """Force Reboot VM (Returns Boolean, True: Success, False: Fail)"""
 
         task = self.session.xenapi.Async.VM.hard_reboot(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -174,7 +174,7 @@ class VM:
         return True
 
     async def snapshot(self, snapshot_name):
-        """ Take a snapshot of current VM """
+        """Take a snapshot of current VM"""
 
         task = self.session.xenapi.Async.VM.snapshot(self.vm, snapshot_name)
         await Common.xenapi_task_handler(self.session, task, True)
@@ -182,7 +182,7 @@ class VM:
         return True
 
     async def suspend(self):
-        """ Suspend VM """
+        """Suspend VM"""
         task = self.session.xenapi.Async.VM.suspend(self.vm)
         await Common.xenapi_task_handler(self.session, task, True)
 

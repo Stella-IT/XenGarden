@@ -4,7 +4,7 @@ from XenGarden.Common import Common
 
 
 class VDI:
-    """ The Virtual Disk Image Object """
+    """The Virtual Disk Image Object"""
 
     def __init__(self, session, vdi):
         self.session = session
@@ -12,7 +12,7 @@ class VDI:
 
     @staticmethod
     def get_by_name(session, name):
-        """ returns SR object that has specific name """
+        """returns SR object that has specific name"""
 
         vdis = session.xenapi.VDI.get_by_name_label(name)
 
@@ -24,7 +24,7 @@ class VDI:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns SR object that has specific uuid """
+        """returns SR object that has specific uuid"""
 
         vdi = session.xenapi.VDI.get_by_uuid(uuid)
 
@@ -35,7 +35,7 @@ class VDI:
 
     @staticmethod
     def get_all(session):
-        """ returns SR object that exists on _host """
+        """returns SR object that exists on _host"""
 
         vdis = session.xenapi.VDI.get_all()
 

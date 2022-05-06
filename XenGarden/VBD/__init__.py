@@ -6,7 +6,7 @@ from XenGarden.VM import VM
 
 
 class VBD:
-    """ The Virtual Block Device Object """
+    """The Virtual Block Device Object"""
 
     def __init__(self, session, vbd):
         self.session = session
@@ -14,7 +14,7 @@ class VBD:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns SR object that has specific uuid """
+        """returns SR object that has specific uuid"""
 
         vbd = session.xenapi.VBD.get_by_uuid(uuid)
 
@@ -25,7 +25,7 @@ class VBD:
 
     @staticmethod
     def get_all(session):
-        """ returns VBDs existing on this _host """
+        """returns VBDs existing on this _host"""
 
         vbds = session.xenapi.VBD.get_all()
         vbd_list = []
@@ -95,7 +95,7 @@ class VBD:
         }
 
     def get_VM(self):
-        """ get VM attached to the specified VBD """
+        """get VM attached to the specified VBD"""
 
         try:
             from XenGarden.VM import VM
@@ -112,7 +112,7 @@ class VBD:
                 raise xenapi_error
 
     def get_VDI(self) -> VDI:
-        """ get VDI attached to the specified VBD """
+        """get VDI attached to the specified VBD"""
         try:
             vdi = self.session.xenapi.VBD.get_VDI(self.vbd)
             vdi = VDI(self.session, vdi)
@@ -126,76 +126,76 @@ class VBD:
                 raise xenapi_error
 
     def get_record(self):
-        """ Returns Information of the VM """
+        """Returns Information of the VM"""
         return self.session.xenapi.VBD.get_record(self.vbd)
 
     def get_uuid(self) -> str:
-        """ get UUID of VBD """
+        """get UUID of VBD"""
 
         return self.session.xenapi.VBD.get_uuid(self.vbd)
 
     def get_mode(self) -> str:
-        """ get mode of VBD """
+        """get mode of VBD"""
 
         return self.session.xenapi.VBD.get_mode(self.vbd)
 
     def get_type(self) -> str:
-        """ get type of VBD """
+        """get type of VBD"""
 
         return self.session.xenapi.VBD.get_type(self.vbd)
 
     def get_bootable(self) -> bool:
-        """ get VBD is bootable """
+        """get VBD is bootable"""
 
         return self.session.xenapi.VBD.get_bootable(self.vbd)
 
     def get_currently_attached(self) -> bool:
-        """ get VBD is currently attached """
+        """get VBD is currently attached"""
 
         return self.session.xenapi.VBD.get_currently_attached(self.vbd)
 
     def get_unpluggable(self) -> bool:
-        """ get VBD is unpluggable """
+        """get VBD is unpluggable"""
 
         return self.session.xenapi.VBD.get_unpluggable(self.vbd)
 
     def get_device(self) -> str:
-        """ get VBD device """
+        """get VBD device"""
 
         return self.session.xenapi.VBD.get_device(self.vbd)
 
     def destroy(self) -> bool:
-        """ eject VDI from VBD """
+        """eject VDI from VBD"""
 
         self.session.xenapi.VBD.destroy(self.vbd)
         return True
 
     def insert(self, vdi: VDI) -> bool:
-        """ insert VDI to VBD """
+        """insert VDI to VBD"""
 
         self.session.xenapi.VBD.insert(self.vbd, vdi.vdi)
         return True
 
     def eject(self) -> bool:
-        """ eject VDI from VBD """
+        """eject VDI from VBD"""
 
         self.session.xenapi.VBD.eject(self.vbd)
         return True
 
     def plug(self) -> bool:
-        """ plug specified VBD """
+        """plug specified VBD"""
 
         self.session.xenapi.VBD.plug(self.vbd)
         return True
 
     def unplug(self) -> bool:
-        """ unplug VBD """
+        """unplug VBD"""
 
         self.session.xenapi.VBD.unplug(self.vbd)
         return True
 
     def unplug_force(self) -> bool:
-        """ unplug VBD """
+        """unplug VBD"""
 
         self.session.xenapi.VBD.unplug_force(self.vbd)
         return True

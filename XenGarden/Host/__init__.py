@@ -2,7 +2,7 @@ from deprecated import deprecated
 
 
 class Host:
-    """ The Host Object """
+    """The Host Object"""
 
     def __init__(self, session, host):
         self.session = session
@@ -10,7 +10,7 @@ class Host:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns Host object that has specific uuid """
+        """returns Host object that has specific uuid"""
 
         host = session.xenapi.host.get_by_uuid(uuid)
 
@@ -21,7 +21,7 @@ class Host:
 
     @staticmethod
     def get_by_name(session, label):
-        """ returns Host object that has specific name """
+        """returns Host object that has specific name"""
 
         host = session.xenapi.host.get_by_name_label(label)
 
@@ -66,67 +66,67 @@ class Host:
         }
 
     def get_uuid(self):
-        """ get UUID of Host """
+        """get UUID of Host"""
 
         return self.session.xenapi.host.get_uuid(self.host)
 
     def get_free_memory(self):
-        """ get Free Memory of Host """
+        """get Free Memory of Host"""
 
         return self.session.xenapi.host.compute_free_memory(self.host)
 
     def get_total_memory(self):
-        """ get Total Memory of Host """
+        """get Total Memory of Host"""
 
         metrics = self.session.xenapi.host.get_metrics(self.host)
         return self.session.xenapi.host_metrics.get_memory_total(metrics)
 
     def get_cpu_info(self):
-        """ get CPU Info of Host """
+        """get CPU Info of Host"""
 
         return self.session.xenapi.host.get_cpu_info(self.host)
 
     def get_software_version(self):
-        """ get Software Version of Host """
+        """get Software Version of Host"""
 
         return self.session.xenapi.host.get_software_version(self.host)
 
     def disable(self):
-        """ Disable Host """
+        """Disable Host"""
 
         return self.session.xenapi.host.disable(self.host)
 
     def enable(self):
-        """ Enable Host """
+        """Enable Host"""
 
         return self.session.xenapi.host.enable(self.host)
 
     def get_enabled(self):
-        """ Get Host is Enabled """
+        """Get Host is Enabled"""
 
         return self.session.xenapi.host.get_enabled(self.host)
 
     def evacuate(self):
-        """ Evacuate Host """
+        """Evacuate Host"""
 
         return self.session.xenapi.host.evacuate(self.host)
 
     def get_address(self):
-        """ Get Address of Host """
+        """Get Address of Host"""
 
         return self.session.xenapi.host.evacuate(self.host)
 
     def get_bios_strings(self):
-        """ Get BIOS Strings of Host """
+        """Get BIOS Strings of Host"""
 
         return self.session.xenapi.host.get_bios_strings(self.host)
 
     def get_capabilities(self):
-        """ Get capabilities of Host """
+        """Get capabilities of Host"""
 
         return self.session.xenapi.host.get_capabilites(self.host)
 
     def get_name(self):
-        """ Get name of Host """
+        """Get name of Host"""
 
         return self.session.xenapi.host.get_name_label(self.host)

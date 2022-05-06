@@ -4,7 +4,7 @@ from deprecated import deprecated
 
 
 class Console:
-    """ The Virtual Console """
+    """The Virtual Console"""
 
     def __init__(self, session, console):
         self.session = session
@@ -24,7 +24,7 @@ class Console:
 
     @staticmethod
     def get_by_uuid(session, uuid):
-        """ returns Console object that has specific uuid """
+        """returns Console object that has specific uuid"""
 
         console = session.xenapi.console.get_by_uuid(uuid)
         if console is not None:
@@ -33,24 +33,24 @@ class Console:
             return None
 
     def get_record(self):
-        """ Returns Information of the Console """
+        """Returns Information of the Console"""
         return self.session.xenapi.console.get_record(self.console)
 
     def get_location(self):
-        """ The Location for Console """
+        """The Location for Console"""
 
         return self.session.xenapi.console.get_location(self.console)
 
     def get_uuid(self):
-        """ Returns UUID of Console """
+        """Returns UUID of Console"""
 
         return self.session.xenapi.console.get_uuid(self.console)
 
     def get_protocol(self):
-        """ Returns Protocol of Console """
+        """Returns Protocol of Console"""
         return self.session.xenapi.console.get_protocol(self.console)
 
     def get_VM(self):
-        """ Returns which VM is this console attached to """
+        """Returns which VM is this console attached to"""
 
         return self.session.xenapi.Async.console.get_VM(self.console)
