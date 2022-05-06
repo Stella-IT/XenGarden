@@ -3,6 +3,7 @@ from enum import Enum
 from XenAPI.XenAPI import Failure
 
 from XenGarden import VM
+from XenGarden.Network import Network
 
 
 class VIFLockingMode(Enum):
@@ -74,6 +75,9 @@ class VIF:
     def get_uuid(self):
         return self.session.xenapi.VIF.get_uuid(self.vif)
 
+    def get_device(self):
+        return self.session.xenapi.VIF.get_device(self.vif)
+
     def get_record(self):
         """Returns Information of the VIF"""
         return self.session.xenapi.VIF.get_record(self.vif)
@@ -92,6 +96,9 @@ class VIF:
     def unplug_force(self):
         self.session.xenapi.VIF.unplug_force(self.vif)
         return True
+
+    def move(self, network: Network):
+        return self.session.xenapi.VIF.move(self.vif, network.network)
 
     def get_locking_mode(self):
         return self.session.xenapi.VIF.get_locking_mode(self.vif)
