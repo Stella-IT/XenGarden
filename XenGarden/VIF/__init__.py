@@ -2,7 +2,7 @@ from enum import Enum
 
 from XenAPI.XenAPI import Failure
 
-from XenGarden import VM
+from XenGarden.VM import VM
 from XenGarden.Network import Network
 
 
@@ -58,14 +58,14 @@ class VIF:
 
     @staticmethod
     def create(
-        session, device: str, network: str, vm: VM, mac: str, mtu: int, **kwargs
+        session, device: str, network: Network, vm: VM, mac: str, mtu: int, **kwargs
     ):
         props = dict(
             device=device,
-            network=network,
-            vm=vm,
-            mac=mac,
-            mtu=mtu,
+            network=network.network,
+            VM=vm.vm,
+            MAC=mac,
+            MTU=mtu,
             **kwargs,
         )
 
@@ -96,9 +96,6 @@ class VIF:
     def unplug_force(self):
         self.session.xenapi.VIF.unplug_force(self.vif)
         return True
-
-    def move(self, network: Network):
-        return self.session.xenapi.VIF.move(self.vif, network.network)
 
     def get_locking_mode(self):
         return self.session.xenapi.VIF.get_locking_mode(self.vif)
