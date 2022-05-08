@@ -78,6 +78,9 @@ class VIF:
     def get_device(self):
         return self.session.xenapi.VIF.get_device(self.vif)
 
+    def get_network(self):
+        return Network(self.session, self.session.xenapi.VIF.get_network(self.vif))
+
     def get_record(self):
         """Returns Information of the VIF"""
         return self.session.xenapi.VIF.get_record(self.vif)
