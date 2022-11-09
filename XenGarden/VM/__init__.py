@@ -212,29 +212,29 @@ class VM:
 
         return True
 
-    async def clone(self, new_name):
+    async def clone(self, new_name: str):
         task = self.session.xenapi.Async.VM.clone(self.vm, new_name)
         data = await Common.xenapi_task_handler(self.session, task, True)
         vm = VM(self.session, data)
 
         return vm
 
-    async def copy(self, new_name, sr: SR):
+    async def copy(self, new_name: str, sr: SR):
         task = self.session.xenapi.Async.VM.copy(self.vm, new_name, sr.sr)
         data = await Common.xenapi_task_handler(self.session, task, True)
         vm = VM(self.session, data)
 
         return vm
 
-    def set_name(self, name):
+    def set_name(self, name: str):
         self.session.xenapi.VM.set_name_label(self.vm, name)
         return True
 
-    def set_description(self, description):
+    def set_description(self, description: str):
         self.session.xenapi.VM.set_name_description(self.vm, description)
         return True
 
-    def set_vCPUs(self, vCPUs, sockets=1):
+    def set_vCPUs(self, vCPUs: int, sockets=1):
         tmp_platform = self.session.xenapi.VM.get_platform(
             self.vm,
         )
@@ -246,12 +246,6 @@ class VM:
         self.session.xenapi.VM.set_VCPUs_max(self.vm, vCPUs)
         self.session.xenapi.VM.set_VCPUs_at_startup(self.vm, vCPUs)
 
-        return True
-
-    def set_memory(self, memory):
-        self.session.xenapi.VM.set_memory_limits(
-            self.vm, memory, memory, memory, memory
-        )
         return True
 
     def get_platform(self):
@@ -268,17 +262,33 @@ class VM:
 
     def get_bios_strings(self):
         return self.session.xenapi.VM.get_bios_strings(self.vm)
-
+    
     def set_bios_strings(self, input_bios_str):
-
-        tmp_bios_str = self.session.xenapi.VM.get_bios_strings(self.vm)
-        bios_str = {**tmp_bios_str, **input_bios_str}
         self.session.xenapi.VM.set_bios_strings(self.vm, bios_str)
         return True
 
-    def get_memory(self):
+    def add_bios_strings(self, bios_strings_to_add):
+        server_bios_strings = self.get_bios_strings()
+        bios_strings = {**server_bios_strings, **bios_strings_to_add}
 
+        return self.set_bios_strings(self.vm, bios_strings)
+
+    def get_memory(self):
         return self.session.xenapi.VM.get_memory_static_max(self.vm)
+
+    def get_memory_min(self):
+        return self.session.xenapi.VM.get_memory_static_min(self.vm)
+
+    def set_memory(self, memory):
+        return self.set_memory_configuration(
+            memory, memory, memory, memory
+        )
+
+    def set_memory_limits(self, static_min, static_max, dynamic_min, dynamic_max):
+        self.session.xenapi.VM.set_memory_limits(
+            self.vm, static_min, static_max, dynamic_min, dynamic_max
+        )
+        return True
 
     async def delete(self):
         from XenGarden.VBD import VBD
@@ -294,6 +304,21 @@ class VM:
 
     async def destroy(self):
         return await self.delete()
+
+    def get_xenstore(self):
+        return self.session.xenapi.VM.get_xenstore_data(self.vm)
+    
+    def get_xenstore(self):
+        return self.session.xenapi.VM.get_xenstore_data(self.vm)
+    
+    def set_xenstore(self, xenstore):
+        return self.session.xenapi.VM.set_xenstore_data(self.vm, xenstore)
+
+    def add_xenstore(self, xenstore_to_add):
+        prev_xenstore = self.get_xenstore()
+        xenstore_to_apply = { **prev_xenstore, **xenstore_to_add }
+
+        return self.set_xenstore(xenstore_to_apply)
 
     def get_VBDs(self, vbd_type=None):
         from XenGarden.VBD import VBD
