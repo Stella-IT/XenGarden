@@ -262,7 +262,7 @@ class VM:
 
     def get_bios_strings(self):
         return self.session.xenapi.VM.get_bios_strings(self.vm)
-    
+
     def set_bios_strings(self, bios_str):
         self.session.xenapi.VM.set_bios_strings(self.vm, bios_str)
         return True
@@ -280,9 +280,7 @@ class VM:
         return self.session.xenapi.VM.get_memory_static_min(self.vm)
 
     def set_memory(self, memory):
-        return self.set_memory_configuration(
-            memory, memory, memory, memory
-        )
+        return self.set_memory_configuration(memory, memory, memory, memory)
 
     def set_memory_limits(self, static_min, static_max, dynamic_min, dynamic_max):
         self.session.xenapi.VM.set_memory_limits(
@@ -291,7 +289,7 @@ class VM:
         return True
 
     async def delete(self):
-        from XenGarden.VBD import VBD
+        pass
 
         vbds = self.get_Disks()
         for vbd in vbds:
@@ -307,13 +305,13 @@ class VM:
 
     def get_xenstore(self):
         return self.session.xenapi.VM.get_xenstore_data(self.vm)
-    
+
     def set_xenstore(self, xenstore):
         return self.session.xenapi.VM.set_xenstore_data(self.vm, xenstore)
 
     def add_xenstore(self, xenstore_to_add):
         prev_xenstore = self.get_xenstore()
-        xenstore_to_apply = { **prev_xenstore, **xenstore_to_add }
+        xenstore_to_apply = {**prev_xenstore, **xenstore_to_add}
 
         return self.set_xenstore(xenstore_to_apply)
 

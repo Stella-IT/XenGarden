@@ -1,9 +1,5 @@
 from enum import Enum
 
-from XenAPI.XenAPI import Failure
-
-from XenGarden import VM
-
 
 class PIFIPv4ConfigurationMode(Enum):
     NONE = "None"

@@ -1,7 +1,5 @@
 from enum import Enum
 
-from XenAPI.XenAPI import Failure
-
 
 class PIFIPv4ConfigurationMode(Enum):
     NONE = "None"
