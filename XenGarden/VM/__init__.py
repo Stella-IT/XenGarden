@@ -263,7 +263,7 @@ class VM:
     def get_bios_strings(self):
         return self.session.xenapi.VM.get_bios_strings(self.vm)
     
-    def set_bios_strings(self, input_bios_str):
+    def set_bios_strings(self, bios_str):
         self.session.xenapi.VM.set_bios_strings(self.vm, bios_str)
         return True
 
@@ -305,9 +305,6 @@ class VM:
     async def destroy(self):
         return await self.delete()
 
-    def get_xenstore(self):
-        return self.session.xenapi.VM.get_xenstore_data(self.vm)
-    
     def get_xenstore(self):
         return self.session.xenapi.VM.get_xenstore_data(self.vm)
     
