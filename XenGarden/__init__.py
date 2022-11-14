@@ -18,5 +18,5 @@ __all__ = [
     "VM",
     "session",
 ]
-__version__ = "1.2.12"
+__version__ = "1.2.13"
 __copyright__ = "Copyright (c) 2020-2022 Stella IT Inc."
