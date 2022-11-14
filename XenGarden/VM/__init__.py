@@ -273,7 +273,7 @@ class VM:
         server_bios_strings = self.get_bios_strings()
         bios_strings = {**server_bios_strings, **bios_strings_to_add}
 
-        return self.set_bios_strings(self.vm, bios_strings)
+        return self.set_bios_strings(bios_strings)
 
     def get_memory(self):
         return self.session.xenapi.VM.get_memory_static_max(self.vm)
