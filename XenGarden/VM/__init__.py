@@ -7,6 +7,8 @@ from XenGarden.Console import Console
 from XenGarden.GuestMetrics import GuestMetrics
 from XenGarden.SR import SR
 
+from deprecated import deprecated
+
 
 class VM:
     """The Virtual Machine Object"""
@@ -287,6 +289,11 @@ class VM:
             self.vm, static_min, static_max, dynamic_min, dynamic_max
         )
         return True
+
+    @deprecated
+    def set_memory_configuration(self, static_min, static_max, dynamic_min, dynamic_max):
+        return self.set_memory_limits(static_min, static_max, dynamic_min, dynamic_max)
+
 
     async def delete(self):
         pass
