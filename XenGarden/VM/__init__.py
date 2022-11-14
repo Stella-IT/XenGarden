@@ -280,7 +280,7 @@ class VM:
         return self.session.xenapi.VM.get_memory_static_min(self.vm)
 
     def set_memory(self, memory):
-        return self.set_memory_configuration(memory, memory, memory, memory)
+        return self.set_memory_limits(memory, memory, memory, memory)
 
     def set_memory_limits(self, static_min, static_max, dynamic_min, dynamic_max):
         self.session.xenapi.VM.set_memory_limits(
