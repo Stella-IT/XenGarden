@@ -7,7 +7,7 @@ setup(
     author="Stella IT",
     author_email="contact@stella-it.com",
     url="https://github.com/Stella-IT/XenGarden",
-    packages=find_packages(exclude=[".vscode"]),
+    packages=find_packages(exclude=[".vscode", ".github"]),
     keywords=["XenGarden", "XenAPI", "XenAPI Wrapper", "Citrix Hypervisor", "XCP-ng"],
     python_requires=">=3",
     install_requires=["xenapi", "deprecated"],
